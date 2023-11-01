@@ -3,50 +3,65 @@
 
 class BigReal {
 private:
-    std::string number;
-    bool isNegative;
-    int decimalPlace;
-
-    bool isValidReal(const std::string& realNumber) {
-        // Implement your validation logic here
-        // Return true if the realNumber is a valid real number, false otherwise
+    string number;
+    string intpart;
+    string fractionpart;
+    string sign;
+    
+bool isValidReal(const string& realNumber) {
+    // Check if the string is empty
+    if (realNumber.empty()) {
+        return false;
     }
 
+    // Check if the string starts with a valid sign (+ or -)
+    if (realNumber[0] != '+' && realNumber[0] != '-' && !isdigit(realNumber[0])) {
+        return false;
+    }
+
+    // Check if the string contains more than one decimal point
+    int decimalCount = 0;
+    for (char c : realNumber) {
+        if (c == '.') {
+            decimalCount++;
+            if (decimalCount > 1) {
+                return false;
+            }
+        } else if (!isdigit(c) && c != '+' && c != '-') {
+            return false;
+        }
+    }
+
+    // Check if the string ends with a digit
+    if (!isdigit(realNumber.back())) {
+        return false;
+    }
+
+    return true;
+}
 public:
-    BigReal(double realNumber = 0.0) {
-        number = std::to_string(realNumber);
-        isNegative = (realNumber < 0);
-        decimalPlace = 0;
-    }
-
-    BigReal(const std::string& realNumber) {
+    BigReal(string realNumber) {
         if (isValidReal(realNumber)) {
-            number = realNumber;
-            isNegative = (realNumber[0] == '-');
-            decimalPlace = 0;
+            if(realNumber[0] == '+' || realNumber[0] == '-'){
+                sign = realNumber[0];
+                realNumber[0] = '0';
+                if(realNumber.find('.')){
+                intpart = realNumber.substr(0,realNumber.find('.'));
+                fractionpart = realNumber.substr(realNumber.find('.'), realNumber.back());
+                }else{
+                intpart = realNumber;
+                }
+            }else{
+                if(realNumber.find('.')){
+                intpart = realNumber.substr(0,realNumber.find('.'));
+                fractionpart = realNumber.substr(realNumber.find('.'), realNumber.back());
+                }else{
+                intpart = realNumber;
+                }
+            }
         } else {
-            // Handle invalid real number input
-            // You can throw an exception or handle it in any other way you prefer
+            intpart = "0.0";
         }
-    }
-
-    void setNum(const std::string& realNumber) {
-        if (isValidReal(realNumber)) {
-            number = realNumber;
-            isNegative = (realNumber[0] == '-');
-            decimalPlace = 0;
-        } else {
-            // Handle invalid real number input
-            // You can throw an exception or handle it in any other way you prefer
-        }
-    }
-
-    int size() {
-        return number.size();
-    }
-
-    int sign() {
-        return (isNegative ? -1 : 1);
     }
 
     BigReal operator+(const BigReal& other) {
