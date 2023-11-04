@@ -406,12 +406,8 @@ public:
     this->fractionpart = other.fractionpart;
     this->sign = other.sign;
     
-
-
     // Step 3: Return the current object
     return *this;
-
-
     }
     friend ostream& operator<<(ostream& out, const BigReal& num) {
         out << num.number;
