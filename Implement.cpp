@@ -11,7 +11,7 @@ private:
     string sign;
 
     bool isValidReal(const string& realNumber) {
-        // Check if the string is empty
+        // Check if the string is empt  
         if (realNumber.empty()) {
             return false;
         }
@@ -42,7 +42,13 @@ private:
         return true;
     }
 
-public:
+public: 
+    BigReal(const BigReal& other){
+        number = other.number;
+        intpart = other.intpart;
+        fractionpart = other.fractionpart;
+        sign = other.sign;
+    }
     BigReal(const string& realNumber) {
         if (!isValidReal(realNumber)) {
             throw invalid_argument("Invalid real number");
@@ -386,6 +392,26 @@ public:
     }
     bool operator==(const BigReal& other) const{
         return !(other < *this) && !(other > *this);
+    }
+
+    BigReal& operator=(BigReal& other) {
+    // Step 1: Check for self-assignment
+    if (this == &other) {
+        return *this;
+    }
+
+    // Step 2: Perform the assignment
+    this->number = other.number;
+    this->intpart = other.intpart;
+    this->fractionpart = other.fractionpart;
+    this->sign = other.sign;
+    
+
+
+    // Step 3: Return the current object
+    return *this;
+
+
     }
     friend ostream& operator<<(ostream& out, const BigReal& num) {
         out << num.number;
