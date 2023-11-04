@@ -1,6 +1,5 @@
 #include <iostream>
 #include <string>
-#include "BigReal.h"
 
 using namespace std;
 
@@ -210,6 +209,9 @@ public:
             int sum = digit1 + digit2 + carry;
             result = to_string(sum % 10) + result;
             carry = sum / 10;
+        }
+        if(carry > 0){
+            result = to_string(carry) + result;
         }
 
         return result;
