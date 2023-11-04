@@ -4,37 +4,30 @@
 #include <iostream>
 #include <string>
 
-using namespace std;
-
 class BigReal {
 private:
-    string number;
-    string intpart;
-    string fractionpart;
-    string sign;
+    std::string number;
+    std::string intpart;
+    std::string fractionpart;
+    std::string sign;
 
-    bool isValidReal(const string& realNumber);
-
-    string addZerosToLeft(const string& number, int numZeros);
-
-    string addWithCarry(const string& num1, const string& num2, int& carry) const;
-
-    string subtractWithBorrow(const string& num1, const string& num2, int borrow) const;
-
-    bool findMaxValue(const string& num1, const string& num2) const;
+    bool isValidReal(const std::string& realNumber);
 
 public:
-    BigReal(const string& realNumber);
+    BigReal(const BigReal& other);
+    BigReal(const std::string& realNumber);
+
+    bool findMaxValue(const std::string& str1, const std::string& str2) const;
 
     BigReal operator+(const BigReal& other) const;
-
+    BigReal operator-(const BigReal& other) const;
     bool operator<(const BigReal& other) const;
-
     bool operator>(const BigReal& other) const;
-
     bool operator==(const BigReal& other) const;
 
-    friend ostream& operator<<(ostream& out, const BigReal& num);
+    BigReal& operator=(BigReal& other);
+
+    friend std::ostream& operator<<(std::ostream& out, const BigReal& num);
 };
 
 #endif // BIGREAL_H
