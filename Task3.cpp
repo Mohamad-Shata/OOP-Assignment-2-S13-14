@@ -57,6 +57,7 @@ public:
         }
     }
 
+
             case 5: {
                     int registerIndex1 = (operand >> 8) & 0xF;
                     int registerIndex2 = (operand >> 4) & 0xF;
