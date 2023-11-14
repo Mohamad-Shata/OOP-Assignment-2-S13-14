@@ -57,7 +57,54 @@ public:
         }
     }
 
+void executeStep() {
+        int pc = 0;
+        while (pc < memory.size()) {
+            int instruction = memory[pc];
+            int opcode = (instruction >> 12) & 0xF;
+            int operand = instruction & 0xFFF;
 
+            Instruction currentInstruction(opcode, operand);
+            executeInstruction(currentInstruction, pc);
+
+            pc++;
+        }
+    }
+
+    void executeInstruction(const Instruction& instruction, int& pc) {
+        int opcode = instruction.getOpcode();
+        int operand = instruction.getOperand();
+
+        switch (opcode) {
+            case 1: {
+                int registerIndex = (operand >> 8) & 0xF;
+                int memoryAddress = operand & 0xFF;
+                registers[registerIndex] = memory[memoryAddress];
+                break;
+            }
+            case 2: {
+                int registerIndex = (operand >> 8) & 0xF;
+                int value = operand & 0xFF;
+                registers[registerIndex] = value;
+                break;
+            }
+            case 3: {
+                int registerIndex = (operand >> 8) & 0xF;
+                int memoryAddress = operand & 0xFF;
+                memory[memoryAddress] = registers[registerIndex];
+
+                if((operand & 0xFF) == 0){
+                    screen.clear();
+                    screen += to_string(memory[memoryAddress]);
+                }
+                break;
+            }
+            case 4: {
+                int registerIndex1 = (operand >> 8) & 0xF;
+                int registerIndex2 = (operand >> 4) & 0xF;
+                registers[registerIndex1] = registers[registerIndex2];
+                break;
+            }
             case 5: {
                     int registerIndex1 = (operand >> 8) & 0xF;
                     int registerIndex2 = (operand >> 4) & 0xF;
