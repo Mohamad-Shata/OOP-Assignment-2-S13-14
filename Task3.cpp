@@ -56,3 +56,64 @@ public:
             cout << "Unable to open file: " << filename << endl;
         }
     }
+
+            case 5: {
+                    int registerIndex1 = (operand >> 8) & 0xF;
+                    int registerIndex2 = (operand >> 4) & 0xF;
+                    int registerIndex3 = operand & 0xF;
+                    int sum = registers[registerIndex2] + registers[registerIndex3];
+                    registers[registerIndex1] = sum;
+                    break;
+                }
+            case 6: {
+                int registerIndex1 = (operand >> 8) & 0xF;
+                int registerIndex2 = (operand >> 4) & 0xF;
+                int registerIndex3 = operand & 0xF;
+                float value1 = static_cast<float>(registers[registerIndex2]);
+                float value2 = static_cast<float>(registers[registerIndex3]);
+                float sum = value1 + value2;
+                registers[registerIndex1] = static_cast<int>(sum);
+                break;
+            }
+            case 11: {
+                int registerIndex = (operand >> 8) & 0xF;
+                int memoryAddress = operand & 0xFF; 
+                if (registers[registerIndex] == registers[0]) {
+                    pc = memoryAddress;
+                }
+                break;
+            }
+            case 12: {
+                cout << "Halt instruction encountered. Program execution stopped." << endl;
+                return;
+            }
+            default:
+                cout << "Invalid opcode: " << opcode << endl;
+                return;
+        }
+    }
+
+    void displayStatus() const {
+        cout << "Registers:" << endl;
+        for (int i = 0; i < registers.size(); i++) {
+            cout << "R" << i << ": " << registers[i] << endl;
+        }
+
+        cout << "Memory:" << endl;
+        for (int i = 0; i < memory.size(); i++) {
+            cout << "M[" << i << "]: " << memory[i] << endl;
+        }
+
+        cout << "Screen:" << endl;
+        cout << screen << endl;
+    }
+};
+
+int main() {
+    Machine machine;
+    machine.loadProgram("2000.txt");
+    machine.executeStep();
+    machine.displayStatus();
+
+    return 0;
+}
