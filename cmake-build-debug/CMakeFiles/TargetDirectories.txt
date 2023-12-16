@@ -1,3 +1,0 @@
-G:/oop/assigment2/cmake-build-debug/CMakeFiles/assigment2.dir
-G:/oop/assigment2/cmake-build-debug/CMakeFiles/edit_cache.dir
-G:/oop/assigment2/cmake-build-debug/CMakeFiles/rebuild_cache.dir
